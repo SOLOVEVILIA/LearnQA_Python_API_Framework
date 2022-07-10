@@ -32,3 +32,27 @@ class TestUserGet(BaseCase):
         expected_fields = ["username", "email", "firstName", "lastName"]
 
         Assertions.assert_json_has_keys(response2, expected_fields)
+
+    # Homework - Ex16
+    def test_request_data_from_another_user(self):
+        # Авторизация пользователя с id = 2
+        data = {
+            'email': 'vinkotov@example.com',
+            'password': '1234'
+        }
+
+        response_auth = MyRequests.post('/user/login', data=data)
+        auth_sid = self.get_cookie(response_auth, "auth_sid")
+        token = self.get_header(response_auth, "x-csrf-token")
+
+        # Запрос по пользователю, где id = 1 с заголовками и кукисами от авторизованного пользователя, где id = 2
+        response_not_auth = MyRequests.get('/user/1',
+                                 headers={"x-csrf-token": token},
+                                 cookies={"auth_sid": auth_sid}
+                                 )
+
+        not_expected_fields = ["email", "firstName", "lastName"]
+
+        # Новая функция в библиотеке assertion.py
+        Assertions.assert_json_has_not_keys(response_not_auth, not_expected_fields)
+        Assertions.assert_json_has_key(response_not_auth, "username")

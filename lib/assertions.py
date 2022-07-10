@@ -1,7 +1,8 @@
 from requests import Response
-import json
+# import json
 
 # Этот метод мы сделаем статическим, так как класс Assertions не является прямым наследником для наших тестов
+
 
 class Assertions:
     @staticmethod
@@ -41,6 +42,17 @@ class Assertions:
             assert False, f"Response is not in JSON format. Response text is '{response.text}'"
 
         assert name not in response_as_dict, f"Response JSON shouldn't have key '{name}'. But it's present."
+
+    # Homework - Ex16
+    @staticmethod
+    def assert_json_has_not_keys(response: Response, names: list):
+        try:
+            response_as_dict = response.json()
+        except:
+            assert False, f"Response is not in JSON format. Response text is '{response.text}'"
+
+        for name in names:
+            assert name not in response_as_dict, f"Response JSON shouldn't have key '{name}'. But it's present."
 
     @staticmethod
     def assert_code_status(response: Response, expected_status_code):
