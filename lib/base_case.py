@@ -1,6 +1,7 @@
 import json.decoder
-
 from requests import Response
+from datetime import datetime
+
 
 class BaseCase:
     def get_cookie(self, response: Response, cookie_name):
@@ -21,3 +22,69 @@ class BaseCase:
         assert name in response_as_dict, f"Response JSON doesn't have key '{name}'"
 
         return response_as_dict[name]
+
+    # Функция, котороая помогает подготавливать регистрационные данные
+    # Тут email - это входной параметр с дефлотным значением
+    # Это значит, что при вызове данной функции, email можно передавать, а можно не передавать
+
+    def prepare_registration_data(self, email=None):
+        if email is None:
+            base_part = "learnqa"
+            domain = "example.com"
+            random_part = datetime.now().strftime("%m%d%Y%H%M%S")
+            email = f'{base_part}{random_part}@{domain}'
+        return {
+            'password': '123',
+            'username': 'learnqa',
+            'firstName': 'learnqa',
+            'lastName': 'learnqa',
+            'email': email
+        }
+
+    # Homework - Ex15-2
+    def prepare_registration_data_with_parametrize(self, email=None, condition=None):
+        # NO PASSWORD
+        if condition == "no_password":
+            return {
+                'password': None,
+                'username': 'learnqa',
+                'firstName': 'learnqa',
+                'lastName': 'learnqa',
+                'email': email
+            }
+        # NO USERNAME
+        if condition == "no_username":
+            return {
+                'password': '123',
+                'username': None,
+                'firstName': 'learnqa',
+                'lastName': 'learnqa',
+                'email': email
+            }
+        # NO FIRSTNAME
+        if condition == "no_firstName":
+            return {
+                'password': '123',
+                'username': 'learnqa',
+                'firstName': None,
+                'lastName': 'learnqa',
+                'email': email
+            }
+        # NO LASTNAME
+        if condition == "no_lastName":
+            return {
+                'password': '123',
+                'username': 'learnqa',
+                'firstName': 'learnqa',
+                'lastName': None,
+                'email': email
+            }
+        # NO EMAIL
+        if condition == "no_email":
+            return {
+                'password': '123',
+                'username': 'learnqa',
+                'firstName': 'learnqa',
+                'lastName': 'learnqa',
+                'email': None
+            }
