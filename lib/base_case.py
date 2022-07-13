@@ -2,6 +2,9 @@ import json.decoder
 from requests import Response
 from datetime import datetime
 
+from lib.my_requests import MyRequests
+from lib.assertions import Assertions
+
 
 class BaseCase:
     def get_cookie(self, response: Response, cookie_name):
@@ -87,4 +90,27 @@ class BaseCase:
                 'firstName': 'learnqa',
                 'lastName': 'learnqa',
                 'email': None
+            }
+
+    # Homework - Ex17-0 // Only register part
+    def prepare_basic_login(self):
+        # REGISTER PART
+        register_data = self.prepare_registration_data()
+        response1 = MyRequests.post('/user', data=register_data)
+
+        Assertions.assert_code_status(response1, 200)
+        Assertions.assert_json_has_key(response1, "id")
+
+        email = register_data['email']
+        first_name = register_data['firstName']
+        password = register_data['password']
+        user_id = self.get_json_value(response1, "id")
+
+        return {
+                'password': password,
+                'username': 'learnqa',
+                'firstName': first_name,
+                'lastName': 'learnqa',
+                'email': email,
+                'user_id': user_id
             }
