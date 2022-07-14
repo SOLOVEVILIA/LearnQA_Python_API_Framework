@@ -1,8 +1,16 @@
 from lib.my_requests import MyRequests
 from lib.base_case import BaseCase
 from lib.assertions import Assertions
+import allure
 
+
+@allure.epic("Authorization cases")
 class TestUserEdit(BaseCase):
+    TEST_CASE_LINK = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNUMAJOq3hrxVMZjJM8Hu4WcOL1KRxs7vNWdH8GU9YhzqFkVE82PAIuPhEvQ9t0NJ-evc&usqp=CAU'
+
+    @allure.description("On this test we try to edit just created user")
+    @allure.severity(allure.severity_level.NORMAL)
+    @allure.testcase(TEST_CASE_LINK, 'Edit test case')
     def test_edit_just_created_user(self):
         # REGISTER
         register_data = self.prepare_registration_data()
@@ -51,6 +59,11 @@ class TestUserEdit(BaseCase):
 
 
     # Homework - Ex17-1
+    TEST_CASE_LINK = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNUMAJOq3hrxVMZjJM8Hu4WcOL1KRxs7vNWdH8GU9YhzqFkVE82PAIuPhEvQ9t0NJ-evc&usqp=CAU'
+
+    @allure.description("On this test we try to edit user without authorization")
+    @allure.severity(allure.severity_level.NORMAL)
+    @allure.testcase(TEST_CASE_LINK, 'Edit test case')
     def test_edit_user_without_auth(self):
         # PREP USER FOR TEST - take only user_id from REGISTER function
         data = self.prepare_basic_login()
@@ -81,6 +94,9 @@ class TestUserEdit(BaseCase):
                                              "Wait what? Somehow you managed to change user data without login.")
 
     # Homework - Ex17-2
+    @allure.description("On this test we try to edit user with authorization from another user")
+    @allure.severity(allure.severity_level.NORMAL)
+    @allure.testcase(TEST_CASE_LINK, 'Edit test case')
     def test_edit_user_with_auth_from_another_user(self):
         # REGISTER part in a separate function
         data = self.prepare_basic_login()
@@ -124,6 +140,9 @@ class TestUserEdit(BaseCase):
         Assertions.assert_json_value_by_name(response4, "username", "Lana", "You managed to change the user data.")
 
     # Homework - Ex17-3
+    @allure.description("On this test we try to edit user and change email on wrong name = without @ symbol")
+    @allure.severity(allure.severity_level.NORMAL)
+    @allure.testcase(TEST_CASE_LINK, 'Edit test case')
     def test_edit_user_email_without_special_symbol(self):
         # REGISTER part in a separate function
         data = self.prepare_basic_login()
@@ -167,6 +186,9 @@ class TestUserEdit(BaseCase):
         Assertions.assert_json_value_by_name(response4, "email", data['email'], "You managed to change email.")
 
     # Homework - Ex17-4
+    @allure.description("On this test we try to edit user and give firstName the wrong length = only one symbol in name")
+    @allure.severity(allure.severity_level.NORMAL)
+    @allure.testcase(TEST_CASE_LINK, 'Edit test case')
     def test_edit_user_firstName_one_symbol(self):
         # REGISTER part in a separate function
         data = self.prepare_basic_login()

@@ -1,9 +1,15 @@
 from lib.base_case import BaseCase
 from lib.my_requests import MyRequests
 from lib.assertions import Assertions
+import allure
 
-
+@allure.epic("Delete cases")
 class TestUserDelete(BaseCase):
+    TEST_CASE_LINK = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNUMAJOq3hrxVMZjJM8Hu4WcOL1KRxs7vNWdH8GU9YhzqFkVE82PAIuPhEvQ9t0NJ-evc&usqp=CAU'
+
+    @allure.description("This test try to delete user with id = 2")
+    @allure.severity(allure.severity_level.CRITICAL)
+    @allure.testcase(TEST_CASE_LINK, 'Delete test case')
     # Homework - Ex18-1
     def test_del_user_with_id_2(self):
         # LOGIN
@@ -42,9 +48,14 @@ class TestUserDelete(BaseCase):
         # if status_code == 200 - user exists
         Assertions.assert_code_status(response_check, 200)
 
+    TEST_CASE_LINK = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNUMAJOq3hrxVMZjJM8Hu4WcOL1KRxs7vNWdH8GU9YhzqFkVE82PAIuPhEvQ9t0NJ-evc&usqp=CAU'
+
+    @allure.description("This test try to delete user")
+    @allure.severity(allure.severity_level.CRITICAL)
+    @allure.testcase(TEST_CASE_LINK, 'Delete test case')
     # Homework - Ex18-2
     def test_del_user(self):
-        # REGISTER - можно использовать функцию из Ex17, которую я сделал для ДЗ
+        # REGISTER - можно использовать функцию из Ex17, которую я сделал для ДЗ / если будет время - переписать
         register_data = self.prepare_registration_data()
         response1 = MyRequests.post('/user', data=register_data)
 
@@ -89,6 +100,11 @@ class TestUserDelete(BaseCase):
         assert response3.content.decode("utf-8") == 'User not found', \
             f"You didn't delete user! Content = {response3.content}"
 
+    TEST_CASE_LINK = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNUMAJOq3hrxVMZjJM8Hu4WcOL1KRxs7vNWdH8GU9YhzqFkVE82PAIuPhEvQ9t0NJ-evc&usqp=CAU'
+
+    @allure.description("This test tries to delete a user when you log in after another user")
+    @allure.severity(allure.severity_level.CRITICAL)
+    @allure.testcase(TEST_CASE_LINK, 'Delete test case')
     # Homework - Ex18-3
     def test_try_to_del_user_but_auth_from_another_user(self):
         # REGISTER

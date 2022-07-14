@@ -29,7 +29,13 @@ class TestUserAuth(BaseCase):
 
         # Ко всем переменным, которые понадобятся в других функциях необходимо добавить self. (делает переменную - полем класса и передавать её значение из одной функции в другие)
 
+    # Homework - Ex19
+    # Link on test cases are fake - only for educational purposes
+    TEST_CASE_LINK = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNUMAJOq3hrxVMZjJM8Hu4WcOL1KRxs7vNWdH8GU9YhzqFkVE82PAIuPhEvQ9t0NJ-evc&usqp=CAU'
+
     @allure.description("This test successfully authorize user by email and password")
+    @allure.severity(allure.severity_level.NORMAL)
+    @allure.testcase(TEST_CASE_LINK, 'Auth test case')
     def test_user_auth(self):
 
         response2 = MyRequests.get(
@@ -49,6 +55,7 @@ class TestUserAuth(BaseCase):
 
     @allure.description("This test checks authorization status w/o sending auth cookie or token")
     @pytest.mark.parametrize('condition', exclude_params)
+    @allure.severity(allure.severity_level.NORMAL)
     def test_negative_auth_check(self, condition):
 
         if condition == "no_cookie":
